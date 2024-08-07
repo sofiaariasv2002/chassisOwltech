@@ -1,7 +1,7 @@
 [submodule "Middlewares/ST/stm32_mw_usb_device"]
 	path = Middlewares/ST/stm32_mw_usb_device
 	url = git@github.com:STMicroelectronics/stm32_mw_usb_device.git
-    
+
 [submodule "Middlewares/owlware"]
 	path = Middlewares/owlware
 	url = git@github.com:RobomasterOwltech/owlware.git
@@ -9,5 +9,4 @@
 [submodule "robotConfig"]
 	path = robotConfig
 	url = git@github.com:RobomasterOwltech/robotConfig.git
-    branch = devTypeC
-
+	branch = STM32VLDISCOVERY
