@@ -1,0 +1,126 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/ubuntu
+{
+    "name": "Ubuntu",
+    // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+    "build": {
+        "dockerfile": "Dockerfile",
+        "args": {
+            "-t": "owltech/compiler"
+        }
+    },
+    // Features to add to the dev container. More info: https://containers.dev/features.
+    // "features": {},
+    // Use 'forwardPorts' to make a list of ports inside the container available locally.
+    // "forwardPorts": [],
+    // Use 'postCreateCommand' to run commands after the container is created.
+    // "postCreateCommand": "uname -a",
+    // Configure tool-specific properties.
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "C_Cpp.enhancedColorization": "enabled",
+                "editor.formatOnSave": true,
+                "cSpell.words": [
+                    "automations",
+                    "Robomaster",
+                    "Gobilda",
+                    "Owltech"
+                ],
+                "doxdocgen.c.firstLine": "/**",
+                "doxdocgen.c.commentPrefix": " * ",
+                "doxdocgen.c.lastLine": " **/",
+                "doxdocgen.cpp.tparamTemplate": "@tparam {param} ",
+                "doxdocgen.file.fileOrder": [
+                    "file",
+                    "author",
+                    "brief",
+                    "date"
+                ],
+                "doxdocgen.generic.dateFormat": "YYYY-MM-DD",
+                "doxdocgen.generic.useGitUserName": true,
+                "doxdocgen.generic.useGitUserEmail": true,
+                "cmake.configureOnOpen": false,
+                "files.associations": {
+                    "main.C": "cpp",
+                    "cmath": "cpp",
+                    "iostream": "cpp"
+                }
+            },
+            "extensions": [
+                // ===== C++
+                "ms-vscode.cpptools",
+                "ms-vscode.cpptools-extension-pack",
+                // ===== Build
+                "ms-vscode.makefile-tools",
+                "ms-vscode.cmake-tools",
+                // ===== Code documentation
+                "cschlosser.doxdocgen",
+                // ===== Intelli
+                "visualstudioexptteam.vscodeintellicode",
+                "visualstudioexptteam.intellicode-api-usage-examples",
+                // ===== Other tools
+                "xaver.clang-format",
+                "streetsidesoftware.code-spell-checker"
+            ],
+            "c_cpp_properties" : {
+                "env": {
+                    "owlPath": [
+                        "${workspaceFolder}/**",
+                        "${workspaceFolder}/robotConfig/inc",
+                        "${workspaceFolder}/owltechMiddleware/inc",
+                        "${workspaceFolder}/eigen/Eigen",
+                        "${workspaceFolder}/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy",
+                        "${workspaceFolder}/Drivers/STM32F4xx_HAL_Driver/Inc",
+                        "${workspaceFolder}/Drivers/CMSIS/Core/Include",
+                        "${workspaceFolder}/Drivers/CMSIS/Core_A/Include",
+                        "${workspaceFolder}/Drivers/CMSIS/DAP/Firmware/Config",
+                        "${workspaceFolder}/Drivers/CMSIS/DAP/Firmware/Include",
+                        "${workspaceFolder}/Drivers/CMSIS/Device/ST/STM32F4xx/Include",
+                        "${workspaceFolder}/Drivers/CMSIS/DSP/Include",
+                        "${workspaceFolder}/Drivers/CMSIS/Include",
+                        "${workspaceFolder}/Drivers/CMSIS/NN/Include",
+                        "${workspaceFolder}/Drivers/CMSIS/RTOS/Template",
+                        "${workspaceFolder}/Drivers/CMSIS/RTOS2/Include",
+                        "${workspaceFolder}/Middlewares/Third_Party/FreeRTOS/Source/include",
+                        "${workspaceFolder}/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS",
+                        "${workspaceFolder}/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F",
+                        "${workspaceFolder}/Middlewares/ST/stm32_mw_usb_device/Class/CDC/Inc",
+                        "${workspaceFolder}/Middlewares/ST/stm32_mw_usb_device/Core/Inc"
+                    ],
+                    "owlDefines": [
+                        "USE_HAL_DRIVER",
+                        "STM32F407xx"
+                    ]
+                },
+                "configurations": [
+                    {
+                        "name": "Linux",
+                        "includePath": [
+                            "${owlPath}",
+                            "${workspaceRoot}",
+                            "/opt/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include",
+                            "/opt/gcc-arm-none-eabi-10.3-2021.10/lib/gcc/arm-none-eabi/10.3.1/include",
+                            "/opt/gcc-arm-none-eabi-10.3-2021.10/lib/gcc/arm-none-eabi/10.3.1/include-fixed",
+                            "/opt/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/c++/10.3.1",
+                            "/opt/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/machine",
+                            "/opt/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/newlib-nano",
+                            "/opt/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/sys"
+                        ],
+                        "defines": [
+                            "${owlDefines}"
+                        ],
+                        "compilerPath": "/usr/local/bin/gcc-arm-none-eabi/arm-none-eabi-g++",
+                        "intelliSenseMode": "gcc-arm",
+                        "cStandard": "c99",
+                        "cppStandard": "c++17"
+                    }
+                ],
+                "version": 4,
+                "enableConfigurationSquiggles": true
+            }
+        }
+    }
+    // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+    // "remoteUser": "root"
+}
