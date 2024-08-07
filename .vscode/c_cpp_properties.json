@@ -1,0 +1,73 @@
+{
+    "env": {
+        "owlPath": [
+            "${workspaceFolder}/**",
+            "${workspaceFolder}/robotConfig/inc",
+            "${workspaceFolder}/owltechMiddleware/inc",
+            "${workspaceFolder}/eigen/Eigen",
+            "${workspaceFolder}/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy",
+            "${workspaceFolder}/Drivers/STM32F4xx_HAL_Driver/Inc",
+            "${workspaceFolder}/Drivers/CMSIS/Core/Include",
+            "${workspaceFolder}/Drivers/CMSIS/Core_A/Include",
+            "${workspaceFolder}/Drivers/CMSIS/DAP/Firmware/Config",
+            "${workspaceFolder}/Drivers/CMSIS/DAP/Firmware/Include",
+            "${workspaceFolder}/Drivers/CMSIS/Device/ST/STM32F4xx/Include",
+            "${workspaceFolder}/Drivers/CMSIS/DSP/Include",
+            "${workspaceFolder}/Drivers/CMSIS/Include",
+            "${workspaceFolder}/Drivers/CMSIS/NN/Include",
+            "${workspaceFolder}/Drivers/CMSIS/RTOS/Template",
+            "${workspaceFolder}/Drivers/CMSIS/RTOS2/Include",
+            "${workspaceFolder}/Middlewares/Third_Party/FreeRTOS/Source/include",
+            "${workspaceFolder}/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS",
+            "${workspaceFolder}/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F",
+            "${workspaceFolder}/Middlewares/ST/stm32_mw_usb_device/Class/CDC/Inc",
+            "${workspaceFolder}/Middlewares/ST/stm32_mw_usb_device/Core/Inc"
+        ],
+        "owlDefines": [
+            "USE_HAL_DRIVER",
+            "STM32F407xx"
+        ]
+    },
+    "configurations": [
+        {
+            "name": "Mac",
+            "includePath": [
+                "${owlPath}",
+                "${workspaceRoot}"
+            ],
+            "defines": [
+                "${owlDefines}"
+            ],
+            "macFrameworkPath": [
+                "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks"
+            ],
+            "compilerPath": "/Applications/ARM/bin/arm-none-eabi-gcc",
+            "intelliSenseMode": "gcc-arm",
+            "cStandard": "c99",
+            "cppStandard": "c++17"
+        },
+        {
+            "name": "Linux",
+            "includePath": [
+                "${owlPath}",
+                "${workspaceRoot}",
+                "/opt/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include",
+                "/opt/gcc-arm-none-eabi-10.3-2021.10/lib/gcc/arm-none-eabi/10.3.1/include",
+                "/opt/gcc-arm-none-eabi-10.3-2021.10/lib/gcc/arm-none-eabi/10.3.1/include-fixed",
+                "/opt/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/c++/10.3.1",
+                "/opt/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/machine",
+                "/opt/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/newlib-nano",
+                "/opt/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/sys"
+            ],
+            "defines": [
+                "${owlDefines}"
+            ],
+            "compilerPath": "/usr/local/bin/gcc-arm-none-eabi/arm-none-eabi-g++",
+            "intelliSenseMode": "gcc-arm",
+            "cStandard": "c99",
+            "cppStandard": "c++17"
+        }
+    ],
+    "version": 4,
+    "enableConfigurationSquiggles": true
+}

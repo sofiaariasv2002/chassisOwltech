@@ -1,0 +1,17 @@
+{
+    "recommendations": 
+        [
+    // ===== Containers 
+        "ms-vscode-remote.remote-containers",
+    // ===== Code documentation
+        "cschlosser.doxdocgen",
+    // ===== Intelli
+        "visualstudioexptteam.vscodeintellicode",
+        "visualstudioexptteam.intellicode-api-usage-examples",
+    // ===== Other tools
+        "ms-vscode.vscode-serial-monitor",
+        "tomoki1207.pdf",
+        "streetsidesoftware.code-spell-checker"
+    
+    ]
+}
