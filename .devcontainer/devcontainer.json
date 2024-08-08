@@ -71,7 +71,6 @@
                     "owlPath": [
                         "${workspaceFolder}/app/inc",
                         "${workspaceFolder}/robotConfig/inc",
-                        "${workspaceFolder}/owltechMiddleware/inc",
                         "/opt/eigen/Eigen",
                         // STM32CubeF1
                         "/opt/STM32CubeF1/Drivers/STM32F1xx_HAL_Driver/Inc/",
@@ -139,9 +138,9 @@
                             "${owlPath}",
                             "${workspaceRoot}",
                             "/opt/gcc-arm-none-eabi/arm-none-eabi/include",
-                            "/opt/gcc-arm-none-eabi/lib/gcc/arm-none-eabi/10.3.1/include",
-                            "/opt/gcc-arm-none-eabi/lib/gcc/arm-none-eabi/10.3.1/include-fixed",
-                            "/opt/gcc-arm-none-eabi/arm-none-eabi/include/c++/10.3.1",
+                            "/opt/gcc-arm-none-eabi/lib/gcc/arm-none-eabi/13.2.1/include",
+                            "/opt/gcc-arm-none-eabi/lib/gcc/arm-none-eabi/13.2.1/include-fixed",
+                            "/opt/gcc-arm-none-eabi/arm-none-eabi/include/c++/13.2.1",
                             "/opt/gcc-arm-none-eabi/arm-none-eabi/include/machine",
                             "/opt/gcc-arm-none-eabi/arm-none-eabi/include/newlib-nano",
                             "/opt/gcc-arm-none-eabi/arm-none-eabi/include/sys"
@@ -149,7 +148,7 @@
                         "defines": [
                             "${owlDefines}"
                         ],
-                        "compilerPath": "/usr/local/bin/gcc-arm-none-eabi/arm-none-eabi-g++",
+                        "compilerPath": "/usr/local/bin/arm-none-eabi-g++",
                         "intelliSenseMode": "gcc-arm",
                         "cStandard": "c99",
                         "cppStandard": "c++17"
