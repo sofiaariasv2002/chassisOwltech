@@ -14,6 +14,11 @@ Template to create FreeRTOS tasks using the team's middleware
 * Make sure that `postStartCommand` value is set at the `.devcontainer/devcontainer.json`.
 * Make sure to have created and register ssh keys for Github, as done in [DeployTools](https://github.com/RobomasterOwltech/deployTools)
 
+## How to change DevBoard
+
+1. At the moment you clone the repo, modify the branch for the `robotConfig` repo.
+1. Change the OwlDefines variables at `.vscode/c_cpp_properties.json`
+
 ### Compile:
 
 1. From the project folder call make 
