@@ -9,6 +9,11 @@ Template to create FreeRTOS tasks using the team's middleware
 1. Download the submodules `git submodule init && git submodule update`
 1. In case any of the dependencies needs to be updated, simply do: `git submodule update --remote`
 
+## Having problems with git?:
+
+* Make sure that `postStartCommand` value is set at the `.devcontainer/devcontainer.json`.
+* Make sure to have created and register ssh keys for Github, as done in [DeployTools](https://github.com/RobomasterOwltech/deployTools)
+
 ### Compile:
 
 1. From the project folder call make 
