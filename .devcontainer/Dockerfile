@@ -37,21 +37,19 @@ ENV eigen_ver=${eigen_ver:-3.4.0}
 # ===== ===== Actual image ===== =====
 # ===== Update repos
     # As a multi-line script
-RUN <<EOT 
-    #!/bin/bash
-    apt update 
-    apt upgrade -y
-    apt install cmake make xz-utils git -y
+RUN apt update && \
+    apt upgrade -y && \
+    apt install -y cmake make xz-utils git && \
     mkdir -p /opt/gcc-arm-none-eabi/ /tmp/gcc-arm-none-eabi/
-EOT
+
 
 # ===== Install compiler
 
 ADD "$compiler_dwn_link" /tmp/compiler.tar.xz
 
-RUN tar xf /tmp/compiler.tar.xz -C /tmp/gcc-arm-none-eabi/ \
-    && mv /tmp/gcc-arm-none-eabi/arm-gnu-toolchain-*/* /opt/gcc-arm-none-eabi/ \
-    && rm -rf /tmp/*
+RUN tar xf /tmp/compiler.tar.xz -C /tmp/gcc-arm-none-eabi/ && \
+    mv /tmp/gcc-arm-none-eabi/arm-gnu-toolchain-*/* /opt/gcc-arm-none-eabi/ && \
+    rm -rf /tmp/*
 
 # Symlink to /usr/local/bin
     # TODO: Why?
@@ -72,23 +70,13 @@ WORKDIR /opt
     # Release notes: https://htmlpreview.github.io/?https://github.com/STMicroelectronics/STM32CubeH7/blob/master/Release_Notes.html
     # STM32F1 processor series
 
-    RUN <<EOT 
-    #!/bin/bash
-    # FreeRTOS
-    git clone --depth 1 --branch $FreeRTOS_tag https://github.com/ARM-software/CMSIS-FreeRTOS
+RUN git clone --depth 1 --branch $FreeRTOS_tag https://github.com/ARM-software/CMSIS-FreeRTOS.git && \
+    git clone --recursive --depth 1 --branch $STM32F4_tag https://github.com/STMicroelectronics/STM32CubeF4.git && \
+    git clone --recursive --depth 1 --branch $STM32H7_tag https://github.com/STMicroelectronics/STM32CubeH7.git && \
+    git clone --recursive --depth 1 --branch $STM32F1_tag https://github.com/STMicroelectronics/STM32CubeF1.git && \
+    git clone --depth 1 --branch $USB_tag https://github.com/STMicroelectronics/stm32_mw_usb_device.git && \
+    git clone --branch  $eigen_ver https://gitlab.com/libeigen/eigen.git
 
-    # STM32 FIRMWARE PACKAGE 
-    git clone --recursive --depth 1 --branch $STM32F4_tag https://github.com/STMicroelectronics/STM32CubeF4
-    git clone --recursive --depth 1 --branch $STM32H7_tag https://github.com/STMicroelectronics/STM32CubeH7
-    git clone --recursive --depth 1 --branch $STM32F1_tag https://github.com/STMicroelectronics/STM32CubeF1.git
-
-    # USB Middleware STM32
-    git clone --depth 1 --branch $USB_tag https://github.com/STMicroelectronics/stm32_mw_usb_device
-
-    # Install eigen
-    git clone --branch $eigen_ver https://gitlab.com/libeigen/eigen.git
-
-EOT
 
 # ===== ===== Build Project ===== =====
 
