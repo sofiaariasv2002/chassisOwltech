@@ -22,6 +22,7 @@
     "customizations": {
         "vscode": {
             "settings": {
+                "terminal.integrated.shell.linux": "/bin/bash",
                 "C_Cpp.enhancedColorization": "enabled",
                 "editor.formatOnSave": true,
                 "cSpell.words": [
