@@ -18,6 +18,7 @@ ARG compiler_dwn_link=https://developer.arm.com/-/media/Files/downloads/gnu/13.2
     # See https://docs.docker.com/reference/dockerfile/#arg
 ARG FreeRTOS_tag
 ARG STM32F1_tag
+ARG STM32F3_tag
 ARG STM32F4_tag
 ARG STM32H7_tag
 ARG USB_tag
@@ -25,6 +26,7 @@ ARG eigen_ver
 
 ENV FreeRTOS_tag=${FreeRTOS_tag:-v11.1.0}
 ENV STM32F1_tag=${STM32F1_tag:-v1.8.5}
+ENV STM32F3_tag=${STM32F3_tag:-v1.11.5}
 ENV STM32F4_tag=${STM32F4_tag:-v1.28.0}
 ENV STM32H7_tag=${STM32H7_tag:-v1.11.0}
 ENV USB_tag=${USB_tag:-v2.11.0}
@@ -69,11 +71,12 @@ WORKDIR /opt
     # STM32H7 processor series
     # Release notes: https://htmlpreview.github.io/?https://github.com/STMicroelectronics/STM32CubeH7/blob/master/Release_Notes.html
     # STM32F1 processor series
-
+    # STM32F3 processor series
 RUN git clone --depth 1 --branch $FreeRTOS_tag https://github.com/ARM-software/CMSIS-FreeRTOS.git && \
     git clone --recursive --depth 1 --branch $STM32F4_tag https://github.com/STMicroelectronics/STM32CubeF4.git && \
     git clone --recursive --depth 1 --branch $STM32H7_tag https://github.com/STMicroelectronics/STM32CubeH7.git && \
     git clone --recursive --depth 1 --branch $STM32F1_tag https://github.com/STMicroelectronics/STM32CubeF1.git && \
+    git clone --recursive --depth 1 --branch $STM32F3_tag https://github.com/STMicroelectronics/STM32CubeF3.git && \
     git clone --depth 1 --branch $USB_tag https://github.com/STMicroelectronics/stm32_mw_usb_device.git && \
     git clone --branch  $eigen_ver https://gitlab.com/libeigen/eigen.git
 
