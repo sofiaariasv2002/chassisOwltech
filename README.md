@@ -19,7 +19,7 @@ Template to create FreeRTOS tasks using the team's middleware
 1. At the moment you clone the repo, modify the branch for the `robotConfig` repo.
 1. Change the OwlDefines variables at `.vscode/c_cpp_properties.json`
 
-### Compile:
+## Compile:
 
 1. From the project folder call make 
 
