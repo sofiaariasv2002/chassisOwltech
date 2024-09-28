@@ -27,49 +27,7 @@ extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f1xx_hal.h"
-
-/* Private includes ----------------------------------------------------------*/
-/* USER CODE BEGIN Includes */
-
-/* USER CODE END Includes */
-
-/* Exported types ------------------------------------------------------------*/
-/* USER CODE BEGIN ET */
-
-/* USER CODE END ET */
-
-/* Exported constants --------------------------------------------------------*/
-/* USER CODE BEGIN EC */
-
-/* USER CODE END EC */
-
-/* Exported macro ------------------------------------------------------------*/
-/* USER CODE BEGIN EM */
-
-/* USER CODE END EM */
-
-/* Exported functions prototypes ---------------------------------------------*/
-void Error_Handler(void);
-
-/* USER CODE BEGIN EFP */
-
-/* USER CODE END EFP */
-
-/* Private defines -----------------------------------------------------------*/
-#define LD4_Pin GPIO_PIN_8
-#define LD4_GPIO_Port GPIOC
-#define LD3_Pin GPIO_PIN_9
-#define LD3_GPIO_Port GPIOC
-#define TMS_SWDIO_Pin GPIO_PIN_13
-#define TMS_SWDIO_GPIO_Port GPIOA
-#define TCK_SWCLK_Pin GPIO_PIN_14
-#define TCK_SWCLK_GPIO_Port GPIOA
-
-/* USER CODE BEGIN Private defines */
-
-/* USER CODE END Private defines */
-
+#include "robotPins.h"
 #ifdef __cplusplus
 }
 #endif
