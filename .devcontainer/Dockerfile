@@ -41,7 +41,7 @@ ENV eigen_ver=${eigen_ver:-3.4.0}
     # As a multi-line script
 RUN apt update && \
     apt upgrade -y && \
-    apt install -y cmake make xz-utils git && \
+    apt install -y cmake make xz-utils git clang-format && \
     mkdir -p /opt/gcc-arm-none-eabi/ /tmp/gcc-arm-none-eabi/
 
 
