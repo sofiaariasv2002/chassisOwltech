@@ -52,8 +52,10 @@ BUILD_DIR = build
 # source
 ######################################
 # C sources
-C_SOURCES =  \
-app/src/main.c
+C_SOURCES = 
+
+# C includes
+C_INCLUDES = 
 
 # ASM sources
 ASMM_SOURCES = 
@@ -68,12 +70,10 @@ AS_DEFS =
 AS_INCLUDES = #\
 -IrobotConfig/inc
 
-# C includes
-C_INCLUDES = \
--Iapp/inc \
-
 # Import proyect dependencies
 include robotConfig/robotConfig.mk
+# Import proyect dependencies
+include app/appCode.mk
 
 # TODO: SHOULD WE SELECT -std=gnu11??
 # compile gcc flags
