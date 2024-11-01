@@ -70,6 +70,9 @@ AS_DEFS =
 AS_INCLUDES = #\
 -IrobotConfig/inc
 
+# NOTE: You need to define that you are using RTOS 
+USE_FREERTOS = 1
+
 # Import proyect dependencies
 include robotConfig/robotConfig.mk
 # Import proyect dependencies
