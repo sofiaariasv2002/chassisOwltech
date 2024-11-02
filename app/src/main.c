@@ -73,12 +73,11 @@ static void exampleTask(void* parameters) {
     /* Unused parameters. */
     (void)parameters;
 
-    HAL_GPIO_WritePin(GPIOC, LD3_Pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
 
     for (;;) {
         /* Example Task Code */
-        HAL_GPIO_TogglePin(GPIOC, LD3_Pin);
-        HAL_GPIO_TogglePin(GPIOC, LD4_Pin);
+        HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
         HAL_Delay(500);
         vTaskDelay(100); /* delay 100 ticks */
     }
