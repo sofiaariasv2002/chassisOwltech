@@ -107,9 +107,11 @@ CFLAGS += -MMD -MP -MF"$(@:%.o=%.d)"
 # -lstdc++ \
 # 				-libstdc++ \
 # 				-libm
-LIBS = -lc -lm -lnosys -lstdc++
+# --gc-sections -static 
+# --start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+LIBS = -lc -lm -lstdc++ -lsupc++
 LIBDIR = 
-LDFLAGS = $(MCU)  --specs=nosys.specs -specs=nano.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
+LDFLAGS = $(MCU)  --specs=nosys.specs --specs=nano.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
 
 # default action: build all
 all: $(BUILD_DIR)/$(TARGET).elf $(BUILD_DIR)/$(TARGET).hex $(BUILD_DIR)/$(TARGET).bin
@@ -141,13 +143,15 @@ $(BUILD_DIR)/%.o: %.S Makefile | $(BUILD_DIR)
 $(BUILD_DIR)/$(TARGET).elf: $(OBJECTS) Makefile
 	$(CC) $(OBJECTS) $(LDFLAGS) -o $@
 	$(SZ) $@
-
+# Make .hex files from all .elf files in the build dir
 $(BUILD_DIR)/%.hex: $(BUILD_DIR)/%.elf | $(BUILD_DIR)
 	$(HEX) $< $@
-	
+
+# Make .bin files from all .elf files in the build dir
 $(BUILD_DIR)/%.bin: $(BUILD_DIR)/%.elf | $(BUILD_DIR)
 	$(BIN) $< $@	
 	
+# Create build dir 
 $(BUILD_DIR):
 	mkdir $@		
 
