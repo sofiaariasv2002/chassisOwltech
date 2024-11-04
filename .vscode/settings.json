@@ -9,6 +9,7 @@
         "stm32f3xx_hal_def.h": "c",
         "stm32_hal_legacy.h": "c",
         "stm32f3xx.h": "c",
-        "stm32f303xe.h": "c"
+        "stm32f303xe.h": "c",
+        "robotpins.h": "c"
     }
 }
