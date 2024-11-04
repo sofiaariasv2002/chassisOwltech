@@ -25,10 +25,12 @@
 
 /* FreeRTOS includes. */
 #include <FreeRTOS.h>
-#include <queue.h>
-#include <semphr.h>
+// #include <queue.h>
+// #include <semphr.h>
 #include <task.h>
-#include <timers.h>
+// #include <timers.h>
+// CMSIS Include
+#include "cmsis_os2.h"
 
 /* Standard includes. */
 #include <stdio.h>
@@ -64,24 +66,36 @@ void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
 
 /*-----------------------------------------------------------*/
-
-static void exampleTask(void* parameters) __attribute__((noreturn));
-
+osThreadId_t defaultTaskHandle;
+const osThreadAttr_t defaultTask_attributes = {
+    .name = "BlinkyThread",
+    .stack_size = 128 * 4,
+    .priority = (osPriority_t)osPriorityNormal,
+};
+void BlinkyThread(void* argument);
 /*-----------------------------------------------------------*/
-
-static void exampleTask(void* parameters) {
-    /* Unused parameters. */
-    (void)parameters;
-
+void BlinkyThread(void* argument) {
     HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
-
-    for (;;) {
-        /* Example Task Code */
-        HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
-        HAL_Delay(500);
-        vTaskDelay(100); /* delay 100 ticks */
+    while (1) {
+        HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);  // Toggle LED (adjust pin as necessary)
+        osDelay(500);                                // Delay for 500 milliseconds
     }
 }
+
+// static void exampleTask(void* parameters) __attribute__((noreturn));
+// static void exampleTask(void* parameters) {
+//     /* Unused parameters. */
+//     (void)parameters;
+
+//     HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+
+//     for (;;) {
+//         /* Example Task Code */
+//         HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+//         vTaskDelay(100); /* delay 100 ticks */
+//     }
+// }
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -127,16 +141,13 @@ int main(void) {
 
     /* Infinite loop */
     /* USER CODE BEGIN WHILE */
-    static StaticTask_t exampleTaskTCB;
-    static StackType_t exampleTaskStack[configMINIMAL_STACK_SIZE];
+    osKernelInitialize();
 
-    (void)printf("Example FreeRTOS Project\n");
+    // Create the Blinky thread
+    defaultTaskHandle = osThreadNew(BlinkyThread, NULL, &defaultTask_attributes);
 
-    (void)xTaskCreateStatic(exampleTask, "example", configMINIMAL_STACK_SIZE, NULL, configMAX_PRIORITIES - 1U,
-                            &(exampleTaskStack[0]), &(exampleTaskTCB));
-
-    /* Start the scheduler. */
-    vTaskStartScheduler();
+    // Start the RTOS kernel
+    osKernelStart();
 
     // This is a fake comment, delete
     for (;;) {
