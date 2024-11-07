@@ -18,7 +18,7 @@
             "/opt/STM32CubeF3/Drivers/CMSIS/Include/",
             "/opt/STM32CubeF3/Drivers/CMSIS/Device/ST/STM32F3xx/Include",
             "/opt/STM32CubeF3/Middlewares/Third_Party/FreeRTOS/Source/include",
-            "/opt/STM32CubeF3/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2",
+            "/opt/STM32CubeF3/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS",
             "/opt/STM32CubeF3/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F",
             "/opt/STM32CubeF3/Middlewares/Third_Party/FreeRTOS/Source/portable/Common",
             "/opt/STM32CubeF3/Middlewares/Third_Party/FreeRTOS/Source/portable/Tasking",
