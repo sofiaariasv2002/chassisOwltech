@@ -36,7 +36,7 @@ C_INCLUDES += -Iapp/inc
 # Includes needed for FreeRTOS, if enabled
 FreeRTOS_INCLUDES = \
 	-I$(FirmwarePath)/Middlewares/Third_Party/FreeRTOS/Source/include \
-	-I$(FirmwarePath)/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 \
+	-I$(FirmwarePath)/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS \
 	-I$(FirmwarePath)/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/$(ARCH_ARM) \
 	
 # Add FreeRTOS includes to whole compilation
@@ -51,7 +51,7 @@ endif
 C_SOURCES += $(shell find app/src/*.c)
 
 FreeRTOS_SOURCES = $(shell find $(FirmwarePath)/Middlewares/Third_Party/FreeRTOS/Source/ -maxdepth 1 -name *.c)
-FreeRTOS_SOURCES += $(shell find $(FirmwarePath)/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/ -name *.c)
+FreeRTOS_SOURCES += $(shell find $(FirmwarePath)/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/ -name *.c)
 FreeRTOS_SOURCES += $(shell find $(FirmwarePath)/Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.c)
 FreeRTOS_SOURCES += $(shell find $(FirmwarePath)/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/$(ARCH_ARM)/ -name *.c)
 # FreeRTOS_SOURCES += $(shell find $(FirmwarePath)/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3_MPU/ -name *.c)
