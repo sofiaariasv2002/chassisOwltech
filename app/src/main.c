@@ -24,11 +24,11 @@
 #include "usart.h"
 
 /* FreeRTOS includes. */
-#include <FreeRTOS.h>
-#include <queue.h>
-#include <semphr.h>
-#include <task.h>
-#include <timers.h>
+// #include <queue.h>
+// #include <semphr.h>
+// #include <timers.h>
+// CMSIS Include
+#include "cmsis_os.h"
 
 /* Standard includes. */
 #include <stdio.h>
@@ -63,26 +63,43 @@
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
 
+typedef enum { THREAD_1 = 0, THREAD_2 } Thread_TypeDef;
+
+osThreadId LEDThread1Handle;
+
+static void BlinkyThread(void const* argument);
+
 /*-----------------------------------------------------------*/
-
-static void exampleTask(void* parameters) __attribute__((noreturn));
-
+// osThreadId_t defaultTaskHandle;
+// const osThreadAttr_t defaultTask_attributes = {
+//     .name = "BlinkyThread",
+//     .stack_size = 128 * 4,
+//     .priority = (osPriority_t)osPriorityNormal,
+// };
+// void BlinkyThread(void* argument);
 /*-----------------------------------------------------------*/
-
-static void exampleTask(void* parameters) {
-    /* Unused parameters. */
-    (void)parameters;
-
-    HAL_GPIO_WritePin(GPIOC, LD3_Pin, GPIO_PIN_RESET);
-
-    for (;;) {
-        /* Example Task Code */
-        HAL_GPIO_TogglePin(GPIOC, LD3_Pin);
-        HAL_GPIO_TogglePin(GPIOC, LD4_Pin);
-        HAL_Delay(500);
-        vTaskDelay(100); /* delay 100 ticks */
+static void BlinkyThread(void const* argument) {
+    HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+    while (1) {
+        HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);  // Toggle LED (adjust pin as necessary)
+        osDelay(2000);                               // Delay for 500 milliseconds
     }
 }
+
+// static void exampleTask(void* parameters) __attribute__((noreturn));
+// static void exampleTask(void* parameters) {
+//     /* Unused parameters. */
+//     (void)parameters;
+
+//     HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+
+//     for (;;) {
+//         /* Example Task Code */
+//         HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+//         vTaskDelay(100); /* delay 100 ticks */
+//     }
+// }
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -128,16 +145,15 @@ int main(void) {
 
     /* Infinite loop */
     /* USER CODE BEGIN WHILE */
-    static StaticTask_t exampleTaskTCB;
-    static StackType_t exampleTaskStack[configMINIMAL_STACK_SIZE];
+    // osKernelInitialize();
 
-    (void)printf("Example FreeRTOS Project\n");
+    // Create the Blinky thread
+    osThreadDef(THREAD_1, BlinkyThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE);
 
-    (void)xTaskCreateStatic(exampleTask, "example", configMINIMAL_STACK_SIZE, NULL, configMAX_PRIORITIES - 1U,
-                            &(exampleTaskStack[0]), &(exampleTaskTCB));
+    LEDThread1Handle = osThreadCreate(osThread(THREAD_1), NULL);
 
-    /* Start the scheduler. */
-    vTaskStartScheduler();
+    // Start the RTOS kernel
+    osKernelStart();
 
     // This is a fake comment, delete
     for (;;) {
@@ -153,30 +169,32 @@ int main(void) {
  * @retval None
  */
 void SystemClock_Config(void) {
-    RCC_OscInitTypeDef RCC_OscInitStruct = {0};
-    RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+    RCC_ClkInitTypeDef RCC_ClkInitStruct;
+    RCC_OscInitTypeDef RCC_OscInitStruct;
 
-    /** Initializes the RCC Oscillators according to the specified parameters
-     * in the RCC_OscInitTypeDef structure.
-     */
-    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
-    RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+    /* HSI Oscillator already ON after system reset, activate PLL with HSI as source */
+    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_NONE;
+    RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+    RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
+    RCC_OscInitStruct.PLL.PREDIV = RCC_PREDIV_DIV2;
+    RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL16;
     RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
-    RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
     if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK) {
-        Error_Handler();
+        /* Initialization Error */
+        while (1);
     }
 
-    /** Initializes the CPU, AHB and APB buses clocks
-     */
-    RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
-    RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
+    /* Select PLL as system clock source and configure the HCLK, PCLK1 and PCLK2
+       clocks dividers */
+    RCC_ClkInitStruct.ClockType =
+        (RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2);
+    RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
     RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-    RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+    RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
     RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
-
-    if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK) {
-        Error_Handler();
+    if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK) {
+        /* Initialization Error */
+        while (1);
     }
 }
 

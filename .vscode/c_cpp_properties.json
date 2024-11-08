@@ -7,50 +7,37 @@
             // STM32CubeF1
             "/opt/STM32CubeF1/Drivers/STM32F1xx_HAL_Driver/Inc/",
             "/opt/STM32CubeF1/Drivers/STM32F1xx_HAL_Driver/Inc/Legacy",
-            "/opt/STM32CubeF1/Drivers/CMSIS/Core/Include",
-            "/opt/STM32CubeF1/Drivers/CMSIS/Core_A/Include",
+            "/opt/STM32CubeF1/Drivers/CMSIS/Include/",
+            "/opt/STM32CubeF1/Drivers/CMSIS/Core/Include/",
             "/opt/STM32CubeF1/Drivers/CMSIS/Device/ST/STM32F1xx/Include",
-            "/opt/STM32CubeF1/Drivers/CMSIS/DSP/Include",
-            "/opt/STM32CubeF1/Drivers/CMSIS/Include",
-            "/opt/STM32CubeF1/Drivers/CMSIS/NN/Include",
-            "/opt/STM32CubeF1/Drivers/CMSIS/RTOS/Template",
-            "/opt/STM32CubeF1/Drivers/CMSIS/RTOS2/Include",
-            "/opt/STM32CubeF1/Middlewares/Third_Party/FreeRTOS/Source/include",
-            "/opt/STM32CubeF1/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS",
-            // TODO: CHECK WHICH IS THE CORRECT ONE 
-            "/opt/STM32CubeF1/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F",
+            // THE F1 board doesn't have enough space for an rtos :(
             // STM32CubeF3
             "/opt/STM32CubeF3/Drivers/STM32F3xx_HAL_Driver/Inc",
             "/opt/STM32CubeF3/Drivers/STM32F3xx_HAL_Driver/Inc/Legacy",
+            "/opt/STM32CubeF3/Drivers/CMSIS/Core/Include/",
+            "/opt/STM32CubeF3/Drivers/CMSIS/Include/",
             "/opt/STM32CubeF3/Drivers/CMSIS/Device/ST/STM32F3xx/Include",
-            "/opt/STM32CubeF3/Drivers/CMSIS/Include",
+            "/opt/STM32CubeF3/Middlewares/Third_Party/FreeRTOS/Source/include",
+            "/opt/STM32CubeF3/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS",
+            "/opt/STM32CubeF3/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F",
+            "/opt/STM32CubeF3/Middlewares/Third_Party/FreeRTOS/Source/portable/Common",
+            "/opt/STM32CubeF3/Middlewares/Third_Party/FreeRTOS/Source/portable/Tasking",
+            "/opt/STM32CubeF3/Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang",
             // STM32CubeF4
             "/opt/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Inc/",
             "/opt/STM32CubeF4/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy",
-            "/opt/STM32CubeF4/Drivers/CMSIS/Core/Include",
-            "/opt/STM32CubeF4/Drivers/CMSIS/Core_A/Include",
-            "/opt/STM32CubeF4/Drivers/CMSIS/DAP/Firmware/Config",
-            "/opt/STM32CubeF4/Drivers/CMSIS/DAP/Firmware/Include",
+            "/opt/STM32CubeF4/Drivers/CMSIS/Core/Include/",
+            "/opt/STM32CubeF4/Drivers/CMSIS/Include/",
             "/opt/STM32CubeF4/Drivers/CMSIS/Device/ST/STM32F4xx/Include",
-            "/opt/STM32CubeF4/Drivers/CMSIS/DSP/Include",
-            "/opt/STM32CubeF4/Drivers/CMSIS/Include",
-            "/opt/STM32CubeF4/Drivers/CMSIS/NN/Include",
-            "/opt/STM32CubeF4/Drivers/CMSIS/RTOS/Template",
-            "/opt/STM32CubeF4/Drivers/CMSIS/RTOS2/Include",
             "/opt/STM32CubeF4/Middlewares/Third_Party/FreeRTOS/Source/include",
             "/opt/STM32CubeF4/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS",
             "/opt/STM32CubeF4/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F",
             // STM32CubeH7
             "/opt/STM32CubeH7/Drivers/STM32H7xx_HAL_Driver/Inc/",
             "/opt/STM32CubeH7/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy",
-            "/opt/STM32CubeH7/Drivers/CMSIS/Core/Include",
-            "/opt/STM32CubeH7/Drivers/CMSIS/Core_A/Include",
+            "/opt/STM32CubeH7/Drivers/CMSIS/Core/Include/",
+            "/opt/STM32CubeH7/Drivers/CMSIS/Include/",
             "/opt/STM32CubeH7/Drivers/CMSIS/Device/ST/STM32H7xx/Include",
-            "/opt/STM32CubeH7/Drivers/CMSIS/DSP/Include",
-            "/opt/STM32CubeH7/Drivers/CMSIS/Include",
-            "/opt/STM32CubeH7/Drivers/CMSIS/NN/Include",
-            "/opt/STM32CubeH7/Drivers/CMSIS/RTOS/Template",
-            "/opt/STM32CubeH7/Drivers/CMSIS/RTOS2/Include",
             "/opt/STM32CubeH7/Middlewares/Third_Party/FreeRTOS/Source/include",
             "/opt/STM32CubeH7/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS",
             // TODO: CHECK WHICH IS THE CORRECT ONE 
@@ -62,8 +49,8 @@
         "owlDefines": [
             "USE_HAL_DRIVER",
             //"STM32F407xx"
-            "STM32F100xB"
-            //"STM32F303xE"
+            //"STM32F100xB"
+            "STM32F303xE"
         ]
     },
     "configurations": [
