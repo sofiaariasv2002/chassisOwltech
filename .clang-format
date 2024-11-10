@@ -2,6 +2,8 @@ BasedOnStyle: Google
 IndentWidth: 4
 ColumnLimit: 120
 AlignConsecutiveMacros: true
+IndentPPDirectives: BeforeHash
+
 ---
 Language: Cpp
 # Force pointers to the type for C++.
