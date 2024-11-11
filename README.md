@@ -23,7 +23,7 @@ Template to create FreeRTOS tasks using the team's middleware
 
 1. From the project folder call make 
 
-        make
+        make all
     1. You might need to specify the compiler path, in which case use:
         
             make GCC_PATH=/path/2/compiler
@@ -32,6 +32,9 @@ Template to create FreeRTOS tasks using the team's middleware
 1. If your build failed, then you can clean the `build` folder
         
         make clean
+1. If you are encountering problems, and would like to know what is being configured by the makefiles from other projects, try:
+
+        make showRobotConfig showRtosConfig
 
 ### Add a file to be compiled 
 
@@ -54,32 +57,6 @@ TODO:
 * Change the configuration on `c_cpp_properties.json`
 * Change the defines on the `Makefile`
 * Edit owlware to automatically include the correct library on each module
-
-### Running for compile
-
-Currently, we're using `make` as our compilation tool. 
-
-By default, make will build whats specified at first, this is the defacto target.
-
-    make
-
-If you wish to compile any other target, then do:
-
-    make targetName
-
-The syntax is like:
-
-```
-targetName: dependency1
-    compiler -flags [args...]
-```
-
-*Note:* Targets may also be defined as dependencies, thus calling a compilation chain
-
-**FYI:** Make can also execute bash commands, so that's why you'll sometimes see commands being used in the `Makefile`. 
-
-In fact the syntax, for declaring, using, and even storing [variables](https://www.gnu.org/savannah-checkouts/gnu/make/manual/make.html#Reading) is the same!
-
 
 ## Resources
 
