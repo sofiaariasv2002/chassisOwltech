@@ -17,6 +17,7 @@ Template to create FreeRTOS tasks using the team's middleware
 ## How to change DevBoard
 
 1. At the moment you clone the repo, modify the branch for the `robotConfig` repo.
+        1. This will Change the defines on the `Makefile`
 1. Change the OwlDefines variables at `.vscode/c_cpp_properties.json`
 
 ## Compile:
@@ -51,12 +52,6 @@ arm-none-eabi-gcc -c -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard 
 If you were to change the C/C++ standard used, remember to change it in the `IntelliSense`, `makefile`, and `c_cpp_properties.json`
 
 For more [formatting options](https://clang.llvm.org/docs/ClangFormatStyleOptions.html) see the link.
-### Make for other STM32 boards:
-
-TODO: 
-* Change the configuration on `c_cpp_properties.json`
-* Change the defines on the `Makefile`
-* Edit owlware to automatically include the correct library on each module
 
 ## Resources
 
