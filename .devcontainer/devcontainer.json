@@ -10,7 +10,7 @@
         }
     },
     // Avoid git problems:
-    "postStartCommand": "git config --global --add safe.directory ${containerWorkspaceFolder}",
+    "postStartCommand": "git config --global --add safe.directory ${containerWorkspaceFolder}/robotConfig ${containerWorkspaceFolder}/Middlewares/owlware ${containerWorkspaceFolder}/Middlewares/ST/stm32_mw_usb_device",
     //
     // Features to add to the dev container. More info: https://containers.dev/features.
     // "features": {},
@@ -24,13 +24,17 @@
             "settings": {
                 "terminal.integrated.shell.linux": "/bin/bash",
                 "C_Cpp.enhancedColorization": "enabled",
-                "editor.formatOnSave": true,
                 "cSpell.words": [
                     "automations",
                     "Robomaster",
                     "Gobilda",
                     "Owltech"
                 ],
+                "editor.formatOnSave": true,
+                "editor.defaultFormatter": "ms-vscode.cpptools",
+                //"editor.defaultFormatter": "xaver.clang-format",
+                "clang-format.executable": "${workspaceRoot}/.clang-format",
+                "clang-format.formatOnSave": true,
                 "doxdocgen.c.firstLine": "/**",
                 "doxdocgen.c.commentPrefix": " * ",
                 "doxdocgen.c.lastLine": " **/",
