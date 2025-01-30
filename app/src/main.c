@@ -50,7 +50,18 @@
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
+
 /* USER CODE BEGIN PFP */
+//static void chassisMoveThread(void const* argument);
+osThreadId_t defaultTaskHandle;
+const osThreadAttr_t defaultTask_attributes = {
+  .name = "chassisMoveThread",
+  .stack_size = 128 * 4,
+  .priority = (osPriority_t)osPriorityNormal,
+};
+
+defaultTaskHandle = osThreadNew(chassisMoveThread, NULL, &defaultTask_attributes);
+
 
 /* USER CODE END PFP */
 

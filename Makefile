@@ -74,6 +74,7 @@ C_INCLUDES = \
 
 # Import proyect dependencies
 include robotConfig/robotConfig.mk
+include Middlewares/owlware/inc/chassisMove.hpp
 
 # TODO: SHOULD WE SELECT -std=gnu11??
 # compile gcc flags
