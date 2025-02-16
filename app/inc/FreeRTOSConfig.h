@@ -41,7 +41,7 @@
 
 /* Ensure stdint is only used by the compiler, and not the assembler. */
 #if defined(__ICCARM__) || defined(__CC_ARM) || defined(__GNUC__)
-#include <stdint.h>
+    #include <stdint.h>
 extern uint32_t SystemCoreClock;
 #endif
 
@@ -93,10 +93,10 @@ to exclude the API function. */
 
 /* Cortex-M specific definitions. */
 #ifdef __NVIC_PRIO_BITS
-/* __BVIC_PRIO_BITS will be specified when CMSIS is being used. */
-#define configPRIO_BITS __NVIC_PRIO_BITS
+    /* __BVIC_PRIO_BITS will be specified when CMSIS is being used. */
+    #define configPRIO_BITS __NVIC_PRIO_BITS
 #else
-#define configPRIO_BITS 4 /* 15 priority levels */
+    #define configPRIO_BITS 4 /* 15 priority levels */
 #endif
 
 /* The lowest interrupt priority that can be used in a call to a "set priority"
@@ -121,8 +121,7 @@ header file. */
 #define configASSERT(x)           \
     if ((x) == 0) {               \
         taskDISABLE_INTERRUPTS(); \
-        for (;;)                  \
-            ;                     \
+        for (;;);                 \
     }
 
 /* Definitions that map the FreeRTOS port interrupt handlers to their CMSIS

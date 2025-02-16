@@ -48,6 +48,7 @@
         ],
         "owlDefines": [
             "USE_HAL_DRIVER",
+            "__cplusplus",
             //"STM32F407xx"
             //"STM32F100xB"
             "STM32F303xE"

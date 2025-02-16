@@ -18,13 +18,13 @@ PREFIX = arm-none-eabi-
 #	-x assembler-with-cpp -> Indicates that the project includes C/C++ giles
 # 		also, enables our assembler to understand preprocesor tags
 ifdef GCC_PATH
-CC = $(GCC_PATH)/$(PREFIX)gcc
-AS = $(GCC_PATH)/$(PREFIX)gcc -x assembler-with-cpp
+CC = $(GCC_PATH)/$(PREFIX)g++
+AS = $(GCC_PATH)/$(PREFIX)g++ -x assembler-with-cpp
 CP = $(GCC_PATH)/$(PREFIX)objcopy
 SZ = $(GCC_PATH)/$(PREFIX)size
 else
-CC = $(PREFIX)gcc
-AS = $(PREFIX)gcc -x assembler-with-cpp
+CC = $(PREFIX)g++
+AS = $(PREFIX)g++ -x assembler-with-cpp
 CP = $(PREFIX)objcopy
 SZ = $(PREFIX)size
 endif
@@ -134,6 +134,8 @@ vpath %.S $(sort $(dir $(ASMM_SOURCES)))
 
 $(BUILD_DIR)/%.o: %.c Makefile | $(BUILD_DIR) 
 	$(CC) -c $(CFLAGS) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(notdir $(<:.c=.lst)) $< -o $@
+$(BUILD_DIR)/%.o: %.cpp Makefile | $(BUILD_DIR)
+	$(CXX) -c $(CXXFLAGS) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(notdir $(<:.cpp=.lst)) $< -o $@
 
 $(BUILD_DIR)/%.o: %.s Makefile | $(BUILD_DIR)
 	$(AS) -c $(CFLAGS) $< -o $@
