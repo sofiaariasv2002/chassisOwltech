@@ -5,7 +5,8 @@ Template to create FreeRTOS tasks using the team's middleware
 
 ## How to use this repo:
 
-1. Clone it `git clone git@github.com:RobomasterOwltech/AppCodeRepo.git`
+1. Clone it `git clone git@github.com:RobomasterOwltech/AppCodeTemp.git`
+2. Go into the newly generated directory `cd AppCodeTemp`
 1. Download the submodules `git submodule init && git submodule update`
 1. In case any of the dependencies needs to be updated, simply do: `git submodule update --remote`
 
@@ -20,9 +21,27 @@ Template to create FreeRTOS tasks using the team's middleware
         1. This will Change the defines on the `Makefile`
 1. Change the OwlDefines variables at `.vscode/c_cpp_properties.json`
 
+## Create the container
+
+1. Download docker:  
+        - For Linux: https://docs.docker.com/engine/install/  
+        - For Windows: https://docs.docker.com/desktop/setup/install/windows-install/  
+        - For MacOS: https://docs.docker.com/desktop/setup/install/mac-install/  
+2. From the project root folder (AppCodeTemp) go to ".devcontainer": `cd .devcontainer`
+3. Build the image: `docker build .`
+4. List the images:  `docker images`
+        - Identify the ID of the image just built
+5. Go to the project root folder (AppCodeTemp): `cd ..`
+6. Run the container in detach mode:  `docker run -d --mount type=bind,source=$(realpath ./),target=/home/myProjects <YOUR_IMAGE_ID>` # Source is the absoluthe path to AppCodeTemp
+
+> All compilation steps need to be done form inside the container. To enter it:
+> 1. List containers: `docker ps`
+>         - Identify the ID of the container
+> 2. Enter the container: `docker exec -it <CONTAINER_ID> bash`
+
 ## Compile:
 
-1. From the project folder call make 
+1. From the project root folder (AppCodeTemp) call make 
 
         make all
     1. You might need to specify the compiler path, in which case use:

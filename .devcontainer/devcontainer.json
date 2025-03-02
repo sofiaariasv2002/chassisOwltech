@@ -10,7 +10,8 @@
         }
     },
     // Avoid git problems:
-    "postStartCommand": "git config --global --add safe.directory ${containerWorkspaceFolder}/robotConfig ${containerWorkspaceFolder}/Middlewares/owlware ${containerWorkspaceFolder}/Middlewares/ST/stm32_mw_usb_device",
+    "postStartCommand": "ls",
+    //"git config --global --add safe.directory ${containerWorkspaceFolder}/robotConfig ${containerWorkspaceFolder}/Middlewares/owlware ${containerWorkspaceFolder}/Middlewares/ST/stm32_mw_usb_device",
     //
     // Features to add to the dev container. More info: https://containers.dev/features.
     // "features": {},
