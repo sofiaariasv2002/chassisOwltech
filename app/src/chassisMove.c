@@ -3,7 +3,6 @@
  *
  *  Created on: Jan 02, 2025
  *      Author: @sofiaariasv2002
- *              @anaValeria098
  *
  * For mor information:
  * https://learning.oreilly.com/library/view/wheeled-mobile-robotics/9780128042380/B9780128042045000020_1.xhtml#s0070
@@ -19,7 +18,7 @@
 
 osThreadId chassisMoveThread;  // ID for thread
 
-float maxMotorSpeed_rpm;
+static float maxMotorSpeed_rpm;
 
 // Estructuras GSL
 gsl_vector* joystick_input;
@@ -40,7 +39,7 @@ gsl_vector* error_speed;
  * sin interferir con otras instancias.
  *
  **/
-void chassisMove(float maxMotorSpeed_rpm) {
+void chassisMove_init(float maxMotorSpeed_rpm) {
     maxMotorSpeed_rpm = maxMotorSpeed_rpm;
     // Inicializar la matriz de control
     control_matrix = gsl_matrix_alloc(4, 3);
@@ -71,36 +70,6 @@ void chassisMove(float maxMotorSpeed_rpm) {
     currentMotorSpeeds = gsl_vector_alloc(4);
     error_speed = gsl_vector_alloc(4);
     // enviar por la otra queue al currentMotorSpeed
-}
-
-//  Thread 1: Send thread
-void send_thread(void const* argument) {
-    ChassisControlMessage* mptr;
-    mptr = osPoolAlloc(mpool);  // Allocate memory for the message
-    mptr->motor1 = 223.72;      // Set the message content
-    mptr->motor2 = 17.54;
-    mptr->motor3 = 120786;
-    mptr->motor4 = 120786;
-    osMessagePut(inputQueueChassis, (uint32_t)mptr, osWaitForever);  // Send Message
-    osDelay(100);
-}
-
-//  Thread 2: Receive thread
-void recv_thread(void const* argument) {
-    ChassisControlMessage* rptr;
-    osEvent evt;
-
-    for (;;) {
-        evt = osMessageGet(outputQueueChassis, osWaitForever);  // wait for message
-        if (evt.status == osEventMessage) {
-            rptr = evt.value.p;
-            printf("\nCurrent motor1: %.2f V\n", rptr->vMotor_FL);
-            printf("Current motor2: %.2f A\n", rptr->vMotor_FR);
-            printf("Current motor3: %d\n", rptr->vMotor_BL);
-            printf("Current motor4: %d\n", rptr->vMotor_BR);
-            osPoolFree(mpool, rptr);  // free memory allocated for message
-        }
-    }
 }
 
 /**
@@ -135,7 +104,22 @@ void normalizeSpeed(gsl_vector* wheel_speed) {
  * @param x2 Entrada del joystick 2 (eje X para control de torsión).
  * @param y2 Entrada del joystick 2 (eje Y para control de torsión).
  */
-void chassisMove(float x1, float y1, float x2, float y2) {
+void chassisMove(void const* argument) {
+    ChassisControlMessage* rptr;
+    osEvent evt;
+
+    for (;;) {
+        evt = osMessageGet(outputQueueChassis, osWaitForever);  // wait for message
+        if (evt.status == osEventMessage) {
+            rptr = evt.value.p;
+            printf("\nCurrent motor1: %.2f V\n", rptr->vMotor_FL);
+            printf("Current motor2: %.2f A\n", rptr->vMotor_FR);
+            printf("Current motor3: %d\n", rptr->vMotor_BL);
+            printf("Current motor4: %d\n", rptr->vMotor_BR);
+            osPoolFree(mpool, rptr);  // free memory allocated for message
+        }
+    }
+
     // Cálculo del ángulo deseado
     float w = atan2(y2, x2);
 
@@ -174,11 +158,4 @@ void chassisMove(float x1, float y1, float x2, float y2) {
             osMessagePut(inputQueueChassis, (uint32_t)msg, osWaitForever);
         }
     }
-}
-
-void stop() {
-    leftFrontMotor->stop(0);
-    rightFrontMotor->stop(0);
-    leftBackMotor->stop(0);
-    rightBackMotor->stop(0);
 }

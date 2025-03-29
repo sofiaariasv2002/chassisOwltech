@@ -17,6 +17,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 
+#include "chassisMove.h"
 #include "gpio.h"
 #include "tim.h"
 #include "usart.h"

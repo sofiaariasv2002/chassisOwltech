@@ -8,8 +8,8 @@
 
 #pragma once
 
-#include "main.h"
 #include "cmsis_os.h"
+#include "main.h"
 
 /**
  * @brief Represents a CAN bus message splitted into the velocity
@@ -35,10 +35,9 @@ typedef struct {
     uint8_t vMotor_pitch;
 } GimballControlMessage;
 
-
-// Message queues from protocols 
+// Message queues from protocols
 extern osPoolId can_rx_mpool;
 extern osPoolId can_tx_mpool;
 
-extern osMessageQId outputQueueChassis; 
-extern osMessageQId inputQueueChassis; 
+extern osMessageQId outputQueueChassis;  // chassis: me envia el can
+extern osMessageQId inputQueueChassis;   // chassis: lo envio al vcan
