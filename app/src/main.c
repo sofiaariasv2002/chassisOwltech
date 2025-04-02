@@ -46,6 +46,7 @@ void SystemClock_Config(void);
 typedef enum { THREAD_1 = 0, THREAD_2 } Thread_TypeDef;
 
 osThreadId LEDThread1Handle;
+osThreadId chassisMoveThreadHandle;
 
 static void BlinkyThread(void const* argument);
 
@@ -111,8 +112,11 @@ int main(void) {
 
     LEDThread1Handle = osThreadCreate(osThread(THREAD_1), NULL);
 
-    // Start the RTOS kernel
-    osKernelStart();
+    osThreadDef(chassisMove, osPriorityNormal, 0, configMINIMAL_STACK_SIZE);
+    chassisMoveThreadHandle = osThreadCreate(osThread(chassisMove), NULL)
+
+        // Start the RTOS kernel
+        osKernelStart();
 
     // This is a fake comment, delete
     for (;;) {

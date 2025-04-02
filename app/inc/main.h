@@ -28,7 +28,8 @@ extern "C" {
 // #include "FreeRTOS.h"
 // #include "port.c"
 // #include "task.h"
-#include "syscalls.c"
+// #include "syscalls.c"
+#include "../../robotConfig/src/syscalls.c"
 
 // CMSIS Include
 #include "cmsis_os.h"

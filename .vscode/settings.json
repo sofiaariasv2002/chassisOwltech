@@ -12,6 +12,7 @@
         "stm32f303xe.h": "c",
         "robotpins.h": "c",
         "stm32f3xx_it.h": "c",
-        "communicationstructs.h": "c"
+        "communicationstructs.h": "c",
+        "syscalls.c": "cpp"
     }
 }

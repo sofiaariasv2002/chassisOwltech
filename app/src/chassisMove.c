@@ -16,7 +16,7 @@
 
 // ######################################### variables #########################################################
 
-osThreadId chassisMoveThread;  // ID for thread
+static osThreadId chassisMoveThread;  // ID for thread
 
 static float maxMotorSpeed_rpm;
 
@@ -104,24 +104,26 @@ void normalizeSpeed(gsl_vector* wheel_speed) {
  * @param x2 Entrada del joystick 2 (eje X para control de torsión).
  * @param y2 Entrada del joystick 2 (eje Y para control de torsión).
  */
-void chassisMove(void const* argument) {
+void chassisMove(float x1, float y1, float x2, float y2) {
     ChassisControlMessage* rptr;
     osEvent evt;
 
+    // TODO: checar si es la pool correcta
+    // TODO: porque se recibe los valores dos veces??
     for (;;) {
         evt = osMessageGet(outputQueueChassis, osWaitForever);  // wait for message
         if (evt.status == osEventMessage) {
             rptr = evt.value.p;
-            printf("\nCurrent motor1: %.2f V\n", rptr->vMotor_FL);
-            printf("Current motor2: %.2f A\n", rptr->vMotor_FR);
-            printf("Current motor3: %d\n", rptr->vMotor_BL);
-            printf("Current motor4: %d\n", rptr->vMotor_BR);
-            osPoolFree(mpool, rptr);  // free memory allocated for message
+            printf("\nCurrent motor1: %u\n", rptr->vMotor_FL);
+            printf("Current motor2: %u\n", rptr->vMotor_FR);
+            printf("Current motor3: %u\n", rptr->vMotor_BL);
+            printf("Current motor4: %u\n", rptr->vMotor_BR);
+            osPoolFree(can_rx_mpool, rptr);  // free memory allocated for message
         }
     }
 
     // Cálculo del ángulo deseado
-    float w = atan2(y2, x2);
+    float w = atan2_approx(y2, x2);
 
     // Asignar los valores del joystick al vector (ya inicializado)
     gsl_vector_set(joystick_input, 0, x1);  // Eje X
@@ -135,7 +137,7 @@ void chassisMove(void const* argument) {
     normalizeSpeed(wheel_speed);
 
     // Recibir las velocidades actuales de los motores desde la cola del RTOS a vector gsl
-    osEvent evt = osMessageGet(outputQueueChassis, osWaitForever);
+    evt = osMessageGet(outputQueueChassis, osWaitForever);
     if (evt.status == osEventMessage) {
         ChassisControlMessage* currentSpeeds = (ChassisControlMessage*)evt.value.p;
         gsl_vector_set(currentMotorSpeeds, 0, currentSpeeds->vMotor_FL);
