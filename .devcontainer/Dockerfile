@@ -44,7 +44,7 @@ RUN apt update && \
     apt install -y cmake make xz-utils git clang-format && \
     apt install -y nano && \
     apt install -y libgsl-dev libgslcblas0 && \
-    apt-get install gcc-multilib 
+    apt install -y gcc-multilib && \
     mkdir -p /opt/gcc-arm-none-eabi/ /tmp/gcc-arm-none-eabi/
 
 

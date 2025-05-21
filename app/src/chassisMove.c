@@ -11,13 +11,11 @@
  */
 
 #include "chassisMove.h"
-
 #include "CommunicationStructs.h"
 
 // ######################################### variables #########################################################
 
 static osThreadId chassisMoveThread;  // ID for thread
-
 static float maxMotorSpeed_rpm;
 
 // Estructuras GSL
@@ -89,10 +87,15 @@ void chassisMove_init(float maxMotorSpeed_rpm) {
  *
  * @param wheel_speed Vector de velocidades de los motores.
  */
-void normalizeSpeed(gsl_vector* wheel_speed) {
-    double max_speed = gsl_vector_max(wheel_speed);
-    if (max_speed > maxMotorSpeed_rpm) {
-        gsl_vector_scale(wheel_speed, maxMotorSpeed_rpm / max_speed);
+void normalizeSpeed(gsl_vector* speeds) {
+    double max = 0.0;
+    for(size_t i = 0; i < speeds->size; i++) {
+        double val = fabs(gsl_vector_get(speeds, i));
+        if(val > max) max = val;
+    }
+    
+    if(max > maxMotorSpeed_rpm) {
+        gsl_vector_scale(speeds, maxMotorSpeed_rpm/max);
     }
 }
 
@@ -104,60 +107,65 @@ void normalizeSpeed(gsl_vector* wheel_speed) {
  * @param x2 Entrada del joystick 2 (eje X para control de torsión).
  * @param y2 Entrada del joystick 2 (eje Y para control de torsión).
  */
-void chassisMove(float x1, float y1, float x2, float y2) {
-    ChassisControlMessage* rptr;
+void chassisMove_thread(void const* arg) {
+    control_data* joystick_msg;
+    ChassisControlMessage* motor_msg;
     osEvent evt;
 
-    // TODO: checar si es la pool correcta
-    // TODO: porque se recibe los valores dos veces??
-    for (;;) {
-        evt = osMessageGet(outputQueueChassis, osWaitForever);  // wait for message
-        if (evt.status == osEventMessage) {
-            rptr = evt.value.p;
-            printf("\nCurrent motor1: %u\n", rptr->vMotor_FL);
-            printf("Current motor2: %u\n", rptr->vMotor_FR);
-            printf("Current motor3: %u\n", rptr->vMotor_BL);
-            printf("Current motor4: %u\n", rptr->vMotor_BR);
-            osPoolFree(can_rx_mpool, rptr);  // free memory allocated for message
+    for(;;) {
+        // 1. Obtener datos del joystick
+        evt = osMessageGet(remoteQueue, osWaitForever);
+        if(evt.status != osEventMessage) continue;
+        
+        joystick_msg = evt.value.p;
+        
+        // 2. Procesar entradas (normalizar de -100 a 1)
+        float vx = joystick_msg->joystickA_x / 100.0f;
+        float vy = joystick_msg->joystickA_y / 100.0f;
+        float w = joystick_msg->joystickB_x / 100.0f;  // Rotación
+        
+        osPoolFree(joystick_mpool, joystick_msg);
+
+        // 3. Calcular velocidades
+        gsl_vector_set(joystick_input, 0, vx);
+        gsl_vector_set(joystick_input, 1, vy);
+        gsl_vector_set(joystick_input, 2, w);
+        
+        gsl_blas_dgemv(CblasNoTrans, 1.0, control_matrix, joystick_input, 0.0, wheel_speed);
+        
+        // 4. Ajustar a RPM máximas
+        gsl_vector_scale(wheel_speed, maxMotorSpeed_rpm);
+        normalizeSpeed(wheel_speed);
+
+        // 5. Obtener velocidades actuales
+        evt = osMessageGet(outputQueueChassis, 0);  
+        if(evt.status == osEventMessage) {
+            motor_msg = evt.value.p;
+            
+            gsl_vector_set(currentMotorSpeeds, 0, motor_msg->vMotor_FL);
+            gsl_vector_set(currentMotorSpeeds, 1, motor_msg->vMotor_FR);
+            gsl_vector_set(currentMotorSpeeds, 2, motor_msg->vMotor_BL);
+            gsl_vector_set(currentMotorSpeeds, 3, motor_msg->vMotor_BR);
+            
+            osPoolFree(can_rx_mpool, motor_msg);
+            
+            // 6. Calcular error (P solamente)
+            gsl_vector_memcpy(error_speed, wheel_speed);
+            gsl_vector_sub(error_speed, currentMotorSpeeds);
         }
-    }
 
-    // Cálculo del ángulo deseado
-    float w = atan2_approx(y2, x2);
-
-    // Asignar los valores del joystick al vector (ya inicializado)
-    gsl_vector_set(joystick_input, 0, x1);  // Eje X
-    gsl_vector_set(joystick_input, 1, y1);  // Eje Y
-    gsl_vector_set(joystick_input, 2, w);   // Ángulo
-
-    // Calcular las velocidades de las ruedas: wheel_speed = control_matrix * joystick_input
-    gsl_blas_dgemv(CblasNoTrans, 1.0, control_matrix, joystick_input, 0.0, wheel_speed);
-
-    // Normalizar las velocidades
-    normalizeSpeed(wheel_speed);
-
-    // Recibir las velocidades actuales de los motores desde la cola del RTOS a vector gsl
-    evt = osMessageGet(outputQueueChassis, osWaitForever);
-    if (evt.status == osEventMessage) {
-        ChassisControlMessage* currentSpeeds = (ChassisControlMessage*)evt.value.p;
-        gsl_vector_set(currentMotorSpeeds, 0, currentSpeeds->vMotor_FL);
-        gsl_vector_set(currentMotorSpeeds, 1, currentSpeeds->vMotor_FR);
-        gsl_vector_set(currentMotorSpeeds, 2, currentSpeeds->vMotor_BL);
-        gsl_vector_set(currentMotorSpeeds, 3, currentSpeeds->vMotor_BR);
-        osPoolFree(can_rx_mpool, currentSpeeds);
-
-        // Calcular el error de velocidad
-        gsl_vector_memcpy(error_speed, wheel_speed);      // Copia wheel_speed (velocidades deseadas) = error_speed.
-        gsl_vector_sub(error_speed, currentMotorSpeeds);  // error_speed=wheel_speed−currentMotorSpeeds
-
-        // Enviar velocidades corregidas a CAN (inputQueueChassis)
-        ChassisControlMessage* msg = (ChassisControlMessage*)osPoolAlloc(can_tx_mpool);
-        if (msg != NULL) {
-            msg->vMotor_FL = gsl_vector_get(wheel_speed, 0);
-            msg->vMotor_FR = gsl_vector_get(wheel_speed, 1);
-            msg->vMotor_BL = gsl_vector_get(wheel_speed, 2);
-            msg->vMotor_BR = gsl_vector_get(wheel_speed, 3);
-            osMessagePut(inputQueueChassis, (uint32_t)msg, osWaitForever);
+        // 7. Enviar nuevas velocidades
+        ChassisControlMessage* new_speeds = osPoolAlloc(can_tx_mpool);
+        if(new_speeds) {
+            new_speeds->vMotor_FL = (int16_t)gsl_vector_get(error_speed, 0);
+            new_speeds->vMotor_FR = (int16_t)gsl_vector_get(error_speed, 1);
+            new_speeds->vMotor_BL = (int16_t)gsl_vector_get(error_speed, 2);
+            new_speeds->vMotor_BR = (int16_t)gsl_vector_get(error_speed, 3);
+            
+            osMessagePut(inputQueueChassis, (uint32_t)new_speeds, osWaitForever);
         }
+
+        osDelay(10);
     }
 }
+

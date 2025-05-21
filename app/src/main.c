@@ -112,11 +112,11 @@ int main(void) {
 
     LEDThread1Handle = osThreadCreate(osThread(THREAD_1), NULL);
 
-    osThreadDef(chassisMove, osPriorityNormal, 0, configMINIMAL_STACK_SIZE);
-    chassisMoveThreadHandle = osThreadCreate(osThread(chassisMove), NULL)
+    osThreadDef(THREAD_2, chassisMove, osPriorityNormal, 0, configMINIMAL_STACK_SIZE);
+    chassisMoveThreadHandle = osThreadCreate(osThread(THREAD_2), NULL);
 
-        // Start the RTOS kernel
-        osKernelStart();
+    // Start the RTOS kernel
+    osKernelStart();
 
     // This is a fake comment, delete
     for (;;) {

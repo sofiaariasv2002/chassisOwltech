@@ -49,8 +49,7 @@ endif
 # Sources
 #######################################
 # Include app source code
-C_SOURCES += app/src/chassisMove.c
-# $(shell find app/src/*.cpp)
+C_SOURCES += $(shell find app/src/*.c)
 			
 
 FreeRTOS_SOURCES = $(shell find $(FirmwarePath)/Middlewares/Third_Party/FreeRTOS/Source/ -maxdepth 1 -name *.c)

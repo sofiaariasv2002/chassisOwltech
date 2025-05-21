@@ -47,7 +47,7 @@ void normalizeSpeed(gsl_vector* wheel_speed);
 void chassisMove_init(float maxMotorSpeed_rpm);
 
 // void chassisMove(void const* argument);
-void chassisMove(float x1, float y1, float x2, float y2);
+void chassisMove();
 
 // void send_thread(void const* argument);
 

@@ -24,6 +24,22 @@ typedef struct {
     uint8_t vMotor_BR;
 } ChassisControlMessage;
 
+typedef struct control_data {
+    int8_t joystickA_x;
+    int8_t joystickA_y;
+    int8_t joystickB_x;
+    int8_t joystickB_y;
+    int8_t knobA;
+    int8_t knobB;
+    int8_t switchA;
+    int8_t switchB;
+    int8_t switchC;
+    int8_t switchD;
+} control_data;
+
+extern osMessageQId remoteQueue;
+extern osPoolId joystick_mpool;
+
 /**
  * @brief Represents a CAN bus message
  *
