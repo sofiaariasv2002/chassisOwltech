@@ -17,6 +17,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 
+#include "chassisMove.h"
 #include "gpio.h"
 #include "tim.h"
 #include "usart.h"
@@ -45,6 +46,7 @@ void SystemClock_Config(void);
 typedef enum { THREAD_1 = 0, THREAD_2 } Thread_TypeDef;
 
 osThreadId LEDThread1Handle;
+osThreadId chassisMoveThreadHandle;
 
 static void BlinkyThread(void const* argument);
 
@@ -109,6 +111,9 @@ int main(void) {
     osThreadDef(THREAD_1, BlinkyThread, osPriorityNormal, 0, configMINIMAL_STACK_SIZE);
 
     LEDThread1Handle = osThreadCreate(osThread(THREAD_1), NULL);
+
+    osThreadDef(THREAD_2, chassisMove, osPriorityNormal, 0, configMINIMAL_STACK_SIZE);
+    chassisMoveThreadHandle = osThreadCreate(osThread(THREAD_2), NULL);
 
     // Start the RTOS kernel
     osKernelStart();

@@ -42,6 +42,9 @@ ENV eigen_ver=${eigen_ver:-3.4.0}
 RUN apt update && \
     apt upgrade -y && \
     apt install -y cmake make xz-utils git clang-format && \
+    apt install -y nano && \
+    apt install -y libgsl-dev libgslcblas0 && \
+    apt install -y gcc-multilib && \
     mkdir -p /opt/gcc-arm-none-eabi/ /tmp/gcc-arm-none-eabi/
 
 

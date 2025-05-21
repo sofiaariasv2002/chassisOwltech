@@ -3,7 +3,7 @@
         "owlPath": [
             "${workspaceFolder}/app/inc",
             "${workspaceFolder}/robotConfig/inc",
-            "/opt/eigen/Eigen",
+            "/usr/include/gsl",
             // STM32CubeF1
             "/opt/STM32CubeF1/Drivers/STM32F1xx_HAL_Driver/Inc/",
             "/opt/STM32CubeF1/Drivers/STM32F1xx_HAL_Driver/Inc/Legacy",

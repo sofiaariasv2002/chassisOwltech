@@ -32,7 +32,7 @@
 
 # Include app definitions
 C_INCLUDES += -Iapp/inc \
-			-I/opt/eigen
+			-I/usr/include
 			
 # Includes needed for FreeRTOS, if enabled
 FreeRTOS_INCLUDES = \
@@ -49,8 +49,8 @@ endif
 # Sources
 #######################################
 # Include app source code
-C_SOURCES += $(shell find app/src/*.cpp)
-#			app/src/chassisMove.cpp
+C_SOURCES += $(shell find app/src/*.c)
+			
 
 FreeRTOS_SOURCES = $(shell find $(FirmwarePath)/Middlewares/Third_Party/FreeRTOS/Source/ -maxdepth 1 -name *.c)
 FreeRTOS_SOURCES += $(shell find $(FirmwarePath)/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/ -name *.c)
